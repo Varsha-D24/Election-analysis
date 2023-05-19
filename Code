@@ -1,0 +1,36 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load election data from a CSV file
+election_data = pd.read_csv('election_data.csv')
+
+# Calculate total votes cast
+total_votes = len(election_data)
+
+# Calculate the number of votes received by each candidate
+candidate_votes = election_data['Candidate'].value_counts()
+
+# Calculate the percentage of votes received by each candidate
+candidate_vote_percentages = candidate_votes / total_votes * 100
+
+# Determine the winner
+winner = candidate_votes.idxmax()
+
+# Print the election results
+print("Election Results")
+print("-------------------------")
+print("Total Votes: ", total_votes)
+print("-------------------------")
+for candidate, votes, percentage in zip(candidate_votes.index, candidate_votes.values, candidate_vote_percentages.values):
+    print(candidate + ": {:.3f}% ({:,})".format(percentage, votes))
+print("-------------------------")
+print("Winner: ", winner)
+print("-------------------------")
+
+# Visualize the election results with a bar chart
+plt.bar(candidate_votes.index, candidate_votes.values)
+plt.xlabel('Candidate')
+plt.ylabel('Number of Votes')
+plt.title('Election Results')
+plt.xticks(rotation=45)
+plt.show()
